@@ -1,3 +1,4 @@
+OS = $(shell uname -s)
 ifeq ($(OS),Windows_NT)
 	EXE := ../super_mario_kart.exe
 	RM := del /s
@@ -18,6 +19,11 @@ CXXFLAGS := -std=c++11  -Wall -W
 LDFLAGS := 
 LDLIBS := 
 
+ifeq  ($(OS),Darwin) or ($(OS),Linux)
+CPPFLAGS += `pkg-config --cflags sfml-graphics sfml-window sfml-system`
+LDLIBS += `pkg-config --libs sfml-graphics sfml-window sfml-system`
+endif
+
 .PHONY: all clean debug release
 
 all: debug
@@ -31,7 +37,11 @@ debug: folders $(EXE)
 release: CPPFLAGS += -MMD -MP -DSFML_STATIC
 release: CXXFLAGS += -O3 -pedantic
 release: LDLIBS := -static-libgcc -static-libstdc++ -pthread
-ifeq  ($(OS),Windows_NT) 
+ifeq  ($(OS),Darwin) 
+release: CPPFLAGS += -fPIC -lqn -Wl,-rpath,$$ORIGIN/lib
+release: LDLIBS := -pthread 
+release: LDLIBS += -lsfml-audio `pkg-config --libs sfml-graphics sfml-window sfml-system`
+else ifeq  ($(OS),Windows_NT) 
 release: LDFLAGS := -mwindows -static
 # each line has a [sfml-module] followed by its [dependencies] (may be repeated)
 # see: https://www.sfml-dev.org/tutorials/2.4/start-cb.php

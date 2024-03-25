@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Super Mario Kart
+Comment=Super Mario Kart clone using C++ with SFML.
+Exec=super_mario_kart %U
+Icon=icon
+Terminal=false
+Type=Application
+Categories=Application;Game;

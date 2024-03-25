@@ -31,13 +31,13 @@ jobs:
           # Setup
           APPDIR=appdir
           mkdir $APPDIR
-          cp -r assets LICENSE README.md $EXE $APPDIR
+          cp -r assets LICENSE README.md $EXE assets/smk.desktop assets/icon.ico $APPDIR
           # builder
           ARCH=`uname -m`
           wget -q "https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20240109-1/linuxdeploy-$ARCH.AppImage"
           chmod a+x linuxdeploy-$ARCH.AppImage
           # build AppImage
-          ./linuxdeploy-$ARCH.AppImage --executable $EXE --appdir $APPDIR --output appimage --desktop-file assets/smk.desktop --icon-file assets/icon.ico 
+          ./linuxdeploy-$ARCH.AppImage --executable $EXE --appdir $APPDIR --output appimage --desktop-file smk.desktop --icon-file icon.ico 
 
       - name: Create Release
         id: create_release

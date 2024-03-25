@@ -14,35 +14,19 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         run: | 
             brew install sfml
-            cd src
-            make release
- 
-      - name: Archive Folder
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifact
-          path: |
-            assets
-            LICENSE
-            README.md
-            super_mario_kart
+            (cd src && make release)
 
-  publish-release:
-    needs: build
-    runs-on: ubuntu-latest
+      - name: Get Tag Name
+        id: get_tag_name
+        run: echo "::set-output name=tag_name::${GITHUB_REF#refs/tags/}"
 
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          name: artifact
-          path: ${{github.workspace}}
+      - name: Create Tarball
+        run: tar -czf "${{ steps.get_tag_name.outputs.tag_name }}.tar.gz" assets LICENSE README.md super_mario_kart
 
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           tag_name: ${{ github.ref }}
-          files: ${{ github.workspace }}/*
+          files: ${{ github.workspace }}/*.tar.gz

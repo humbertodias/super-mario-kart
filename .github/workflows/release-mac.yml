@@ -20,8 +20,12 @@ jobs:
         id: get_tag_name
         run: echo "::set-output name=tag_name::${GITHUB_REF#refs/tags/}"
 
+      - name: Get Architecture
+        id: get_architecture
+        run: echo "::set-output name=arch::$(uname -m)"
+
       - name: Create Tarball
-        run: tar -czf "${{ steps.get_tag_name.outputs.tag_name }}.tar.gz" assets LICENSE README.md super_mario_kart
+        run: tar -czf "smk-mac-${{ steps.get_tag_name.outputs.arch }}-${{ steps.get_tag_name.outputs.tag_name }}.tar.gz" assets LICENSE README.md super_mario_kart
 
       - name: Create Release
         id: create_release

@@ -12,9 +12,9 @@ jobs:
 
       - name: Download and Install SFML
         run: |
-          mkdir C:\SFML
           curl -L -o SFML.zip https://www.sfml-dev.org/files/SFML-2.6.1-windows-gcc-13.1.0-mingw-64-bit.zip
-          Expand-Archive -Path SFML.zip -DestinationPath C:\SFML
+          Expand-Archive -Path SFML.zip -DestinationPath C:\
+          Rename-Item -Path C:\SFML-2.6.1 -NewName C:\SFML
           Remove-Item SFML.zip
   
       - name: Install MinGW

@@ -22,6 +22,9 @@ LDLIBS :=
 ifeq  ($(OS),Darwin) or ($(OS),Linux)
 CPPFLAGS += `pkg-config --cflags sfml-graphics sfml-window sfml-system`
 LDLIBS += `pkg-config --libs sfml-graphics sfml-window sfml-system`
+else ifeq  ($(OS),Windows_NT) 
+CPPFLAGS += -IC:/SFML/include
+LDLIBS += -LC:/SFML/lib
 endif
 
 .PHONY: all clean debug release

@@ -40,5 +40,8 @@ dmg:
 tar.gz:
 	tar -czf "smk-mac-${ARCH}-${TAG_NAME}.tar.gz" assets LICENSE README.md super_mario_kart
 
+zip:
+	zip "smk-win-${ARCH}-${TAG_NAME}.zip" assets LICENSE README.md super_mario_kart.exe
+
 clean:
 	rm -rf ${APPDIR} ${DMGDIR} *.dmg *.AppImage

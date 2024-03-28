@@ -19,7 +19,7 @@ jobs:
   
       - name: Install MinGW
         run: |
-          choco install mingw -y
+          choco install mingw --version=13.1.0 -y
 
       - name: Run Release
         # if: startsWith(github.ref, 'refs/tags/')

@@ -27,9 +27,9 @@ CPPFLAGS += -IC:/SFML/include
 LDLIBS += -LC:/SFML/lib
 endif
 
-.PHONY: all clean debug release
+.PHONY: all clean debug release show_os
 
-all: debug
+all: show_os debug
 
 debug: CPPFLAGS += -DDEBUG
 debug: CXXFLAGS += -O0 -ggdb
@@ -87,4 +87,6 @@ else
 clean:
 	$(RM) $(EXE) $(OBJ) $(DEP)
 endif
-	
+
+show_os:
+	@echo "Operating System: $(OS)"

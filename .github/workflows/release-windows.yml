@@ -17,10 +17,9 @@ jobs:
           Expand-Archive -Path SFML.zip -DestinationPath C:\SFML
           Remove-Item SFML.zip
   
-      - name: Set up MinGW environment
-        uses: vookimedlo/setup-mingw@v1
-        with:
-          mingw-arch: x86_64
+      - name: Install MinGW
+        run: |
+          choco install mingw -y
 
       - name: Run Release
         # if: startsWith(github.ref, 'refs/tags/')

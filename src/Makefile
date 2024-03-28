@@ -1,4 +1,8 @@
-OS = $(shell uname -s)
+# Check if OS variable is defined, if not, assign a default value
+ifndef OS
+OS := $(shell uname -s)
+endif
+
 ifeq ($(OS),Windows_NT)
 	EXE := ../super_mario_kart.exe
 	RM := del /s

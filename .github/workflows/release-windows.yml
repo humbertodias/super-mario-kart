@@ -24,7 +24,7 @@ jobs:
       - name: Run Release
         # if: startsWith(github.ref, 'refs/tags/')
         run: | 
-            (cd src && make show_os release)
+            (cd src && make OS=Windows_NT release)
 
       - name: Create Zip
         # if: startsWith(github.ref, 'refs/tags/')

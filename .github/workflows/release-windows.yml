@@ -12,26 +12,17 @@ jobs:
 
       - name: Install MinGW
         run: |
-          choco install mingw --version=13.1.0 -y
+          choco install mingw -y
 
       - name: Download and Install SFML
         shell: bash
         run: |
-          curl -L -o SFML.zip https://www.sfml-dev.org/files/SFML-2.6.1-windows-gcc-13.1.0-mingw-64-bit.zip
+          SFML_VERSION=2.5.1
+          GCC_VERSION=7.3.0
+          curl -L -o SFML.zip https://www.sfml-dev.org/files/SFML-$SFML_VERSION-windows-gcc-$GCC_VERSION-mingw-64-bit.zip
           unzip SFML.zip
-          mv SFML-2.6.1 /c/SFML
+          mv SFML-$SFML_VERSION /c/SFML
           rm SFML.zip
-  
-      - name: Download and Install libFLAC
-        shell: bash
-        run: |
-          cd /tmp
-          curl -L -o flac.tar.xz https://github.com/xiph/flac/releases/download/1.4.3/flac-1.4.3.tar.xz
-          tar -xf flac.tar.xz
-          cd flac-1.4.3
-          ./configure --host=x86_64-w64-mingw32 --prefix="/tmp/build" --disable-shared --enable-static
-          make
-          cp ./src/libFLAC/.libs/libFLAC.a /c/SFML/lib/
   
       - name: Run Release
         # if: startsWith(github.ref, 'refs/tags/')

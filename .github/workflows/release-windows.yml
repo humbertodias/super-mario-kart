@@ -19,10 +19,10 @@ jobs:
 
       - name: Download and Install libFLAC
         run: |
-          curl -L -o libflac.zip https://github.com/xiph/flac/releases/download/1.4.3/flac-1.4.3-win.zip
-          Expand-Archive -Path libflac.zip -DestinationPath C:\
-          Rename-Item -Path C:\flac-1.4.3-win -NewName C:\flac
-          Remove-Item libflac.zip
+          curl -L -o flac.tar.xz https://github.com/xiph/flac/releases/download/1.4.3/flac-1.4.3.tar.xz
+          Invoke-Expression "tar -xf flac.tar.xz -C C:\"
+          Rename-Item -Path C:\flac-1.4.3 -NewName C:\flac
+          Remove-Item flac.tar.xz
           Set-Location C:\flac
           Invoke-Expression ".\configure --host=x86_64-w64-mingw32 --disable-shared --enable-static"
           make

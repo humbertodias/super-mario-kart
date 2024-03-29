@@ -2,6 +2,7 @@
 ifndef OS
 OS := $(shell uname -s)
 endif
+WINDRES=windres
 
 ifeq ($(OS),Windows_NT)
 	EXE := ../super_mario_kart.exe
@@ -27,9 +28,13 @@ ifeq  ($(OS),Darwin) or ($(OS),Linux)
 CPPFLAGS += `pkg-config --cflags sfml-graphics sfml-window sfml-system`
 LDFLAGS += `pkg-config --libs sfml-graphics sfml-window sfml-system`
 else ifeq  ($(OS),Windows_NT)
-CXXFLAGS := -std=gnu++17  -Wall -W
+CXXFLAGS := -std=c++11  -Wall -W
 CPPFLAGS += -IC:/SFML/include -D_WIN32
 LDFLAGS += -LC:/SFML/lib
+else ifeq  ($(OS),mingw)
+CXXFLAGS := -std=gnu++17 -Wall -W
+CPPFLAGS += -I/home/user/src/SFML-2.6.1/include
+LDFLAGS += -L/usr/i686-w64-mingw32/sys-root/mingw/lib
 endif
 
 .PHONY: all clean debug release show_os
@@ -57,6 +62,14 @@ release: LDLIBS += -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32
 release: LDLIBS += -lsfml-window-s -lsfml-system-s -lwinmm -lgdi32
 release: LDLIBS += -lsfml-audio-s -lsfml-system-s -lopenal32 -lflac -lvorbisenc -lvorbisfile -lvorbis -logg
 release: LDLIBS += -lsfml-system-s -lwinmm
+else ifeq  ($(OS),mingw) 
+release: LDFLAGS += -mwindows -static -lmsvcrt
+# each line has a [sfml-module] followed by its [dependencies] (may be repeated)
+# see: https://www.sfml-dev.org/tutorials/2.4/start-cb.php
+release: LDLIBS += -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32
+release: LDLIBS += -lsfml-window-s -lsfml-system-s -lwinmm -lgdi32
+release: LDLIBS += -lsfml-audio-s -lsfml-system-s -lopenal32 -lFLAC -lvorbisenc -lvorbisfile -lvorbis -logg
+release: LDLIBS += -lsfml-system-s -lwinmm
 else
 # tested on debian 10
 release: CPPFLAGS += -fPIC -lqn -Wl,-rpath,$$ORIGIN/lib
@@ -82,7 +95,7 @@ $(BINDIR)/%.o: %.cpp
 	$(CXX) -c $(LDFLAGS) $(CXXFLAGS) $(CPPFLAGS) -I. $< -o $@
 
 $(BINDIR)/super_mario_kart.res: super_mario_kart.rc
-	windres super_mario_kart.rc -O coff -o $(BINDIR)/super_mario_kart.res
+	$(WINDRES) super_mario_kart.rc -O coff -o $(BINDIR)/super_mario_kart.res
 
 ifeq  ($(OS),Windows_NT) 
 clean:

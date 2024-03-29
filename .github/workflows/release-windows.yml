@@ -5,39 +5,25 @@ on: push
 jobs:
   build:
     name: Compile
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Install MinGW
-        run: |
-          choco install mingw -y
-
-      - name: Download and Install SFML
-        shell: bash
-        run: |
-          SFML_VERSION=2.6.1
-          GCC_VERSION=13.1.0
-          curl -L -o SFML.zip https://www.sfml-dev.org/files/SFML-$SFML_VERSION-windows-gcc-$GCC_VERSION-mingw-64-bit.zip
-          unzip SFML.zip
-          mv SFML-$SFML_VERSION /c/SFML
-          rm SFML.zip
-            
       - name: Run Release
-        # if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         run: | 
-            (cd src && make OS=Windows_NT release)
+            (cd src && make OS=mingw release)
 
       - name: Create Zip
-        # if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         id: create_zip
         run: make zip
 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v2
-        # if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             ${{ github.workspace }}/*.zip 

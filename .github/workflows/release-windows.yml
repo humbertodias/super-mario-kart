@@ -24,7 +24,7 @@ jobs:
           Rename-Item -Path C:\flac-1.4.3-win -NewName C:\flac
           Remove-Item libflac.zip
           Set-Location C:\flac
-          .\configure --host=x86_64-w64-mingw32 --disable-shared --enable-static
+          Invoke-Expression ".\configure --host=x86_64-w64-mingw32 --disable-shared --enable-static"
           make
           Copy-Item -Path ".\src\libFLAC\.libs\libFLAC.a" -Destination "C:\SFML\lib\"
 

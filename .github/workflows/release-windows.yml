@@ -23,8 +23,12 @@ jobs:
           unzip SFML.zip
           mv SFML-$SFML_VERSION /c/SFML
           rm SFML.zip
-          yes | cp -f ${{ github.workspace }}/utils/libFLAC-static.a /c/SFML/lib/libFLAC.a
-  
+
+      - name: Copy libFLAC.a
+        shell: bash
+        run: |
+          yes | cp -f utils/libFLAC-static.a /c/SFML/lib/libFLAC.a
+            
       - name: Run Release
         # if: startsWith(github.ref, 'refs/tags/')
         run: | 

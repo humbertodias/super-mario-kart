@@ -17,8 +17,8 @@ jobs:
       - name: Download and Install SFML
         shell: bash
         run: |
-          SFML_VERSION=2.5.1
-          GCC_VERSION=7.3.0
+          SFML_VERSION=2.6.1
+          GCC_VERSION=13.1.0
           curl -L -o SFML.zip https://www.sfml-dev.org/files/SFML-$SFML_VERSION-windows-gcc-$GCC_VERSION-mingw-64-bit.zip
           unzip SFML.zip
           mv SFML-$SFML_VERSION /c/SFML

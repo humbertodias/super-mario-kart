@@ -49,7 +49,7 @@ release: CPPFLAGS += -fPIC -lqn -Wl,-rpath,$$ORIGIN/lib
 release: LDLIBS := -pthread 
 release: LDLIBS += -lsfml-audio `pkg-config --libs sfml-graphics sfml-window sfml-system`
 else ifeq  ($(OS),Windows_NT) 
-release: LDFLAGS += -mwindows -static
+release: LDFLAGS += -mwindows -static -lmsvcrt
 # each line has a [sfml-module] followed by its [dependencies] (may be repeated)
 # see: https://www.sfml-dev.org/tutorials/2.4/start-cb.php
 release: LDLIBS += -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32

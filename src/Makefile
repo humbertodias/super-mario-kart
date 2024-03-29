@@ -25,10 +25,10 @@ LDLIBS :=
 
 ifeq  ($(OS),Darwin) or ($(OS),Linux)
 CPPFLAGS += `pkg-config --cflags sfml-graphics sfml-window sfml-system`
-LDLIBS += `pkg-config --libs sfml-graphics sfml-window sfml-system`
+LDFLAGS += `pkg-config --libs sfml-graphics sfml-window sfml-system`
 else ifeq  ($(OS),Windows_NT) 
 CPPFLAGS += -IC:/SFML/include
-LDLIBS += -LC:/SFML/lib
+LDFLAGS += -LC:/SFML/lib
 endif
 
 .PHONY: all clean debug release show_os
@@ -52,7 +52,7 @@ else ifeq  ($(OS),Windows_NT)
 release: LDFLAGS += -mwindows -static
 # each line has a [sfml-module] followed by its [dependencies] (may be repeated)
 # see: https://www.sfml-dev.org/tutorials/2.4/start-cb.php
-release: LDLIBS += -LC:/SFML/lib -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32
+release: LDLIBS += -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32
 release: LDLIBS += -lsfml-window-s -lsfml-system-s -lwinmm -lgdi32
 release: LDLIBS += -lsfml-audio-s -lsfml-system-s -lopenal32 -lflac -lvorbisenc -lvorbisfile -lvorbis -logg
 release: LDLIBS += -lsfml-system-s -lwinmm

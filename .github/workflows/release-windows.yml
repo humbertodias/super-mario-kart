@@ -27,7 +27,7 @@ jobs:
       - name: Copy libFLAC.a
         shell: bash
         run: |
-          yes | cp -f utils/libFLAC-static.a /c/SFML/lib/libFLAC.a
+          cp -f utils/libFLAC-static.a /c/SFML/lib/libFLAC.a
             
       - name: Run Release
         # if: startsWith(github.ref, 'refs/tags/')

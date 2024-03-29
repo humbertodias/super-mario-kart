@@ -1,10 +1,10 @@
 OS := mingw
 WINDRES=windres
 
-EXE := ../super_mario_kart
 MKDIR := mkdir -p
 
 BINDIR := ../bin
+EXE := $(BINDIR)/super_mario_kart
 
 SRC := $(wildcard **/*.cpp) $(wildcard *.cpp)
 OBJ := $(patsubst %.cpp, $(BINDIR)/%.o, $(SRC))

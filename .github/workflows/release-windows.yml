@@ -17,21 +17,20 @@ jobs:
           Rename-Item -Path C:\SFML-2.6.1 -NewName C:\SFML
           Remove-Item SFML.zip
 
-      - name: Download and Install libFLAC
-        run: |
-          curl -L -o flac.tar.xz https://github.com/xiph/flac/releases/download/1.4.3/flac-1.4.3.tar.xz
-          Invoke-Expression "tar -xf flac.tar.xz -C C:\"
-          Rename-Item -Path C:\flac-1.4.3 -NewName C:\flac
-          Remove-Item flac.tar.xz
-          Set-Location C:\flac
-          Invoke-Expression ".\configure --host=x86_64-w64-mingw32 --disable-shared --enable-static"
-          make
-          Copy-Item -Path ".\src\libFLAC\.libs\libFLAC.a" -Destination "C:\SFML\lib\"
-
       - name: Install MinGW
         run: |
           choco install mingw --version=13.1.0 -y
 
+      - name: Download and Install libFLAC
+        shell: bash
+        run: |
+          curl -L -o flac.tar.xz https://github.com/xiph/flac/releases/download/1.4.3/flac-1.4.3.tar.xz
+          tar -xf flac.tar.xz
+          cd flac-1.4.3
+          ./configure --host=x86_64-w64-mingw32 --disable-shared --enable-static
+          make
+          cp ./src/libFLAC/.libs/libFLAC.a" /c/SFML/lib/
+  
       - name: Run Release
         # if: startsWith(github.ref, 'refs/tags/')
         run: | 

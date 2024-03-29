@@ -43,10 +43,14 @@ tar.gz:
 zip:
 	zip "smk-win-${ARCH}-${TAG_NAME}.zip" assets LICENSE README.md openal32.dll super_mario_kart.exe
 
-mingw:
+bin:
+	rm -rf bin
+	mkdir -p bin bin/{states,input,map,entities,gui,ai,audio}
+
+mingw:	bin
 	DOCKER_DEFAULT_PLATFORM=linux/amd64 docker build . -f Dockerfile.mingw -t mingw
 	DOCKER_DEFAULT_PLATFORM=linux/amd64 docker run -t -v ${PWD}:/tmp/wd -w/tmp/wd -t mingw bash -c "cd src && make -f Makefile.mingw release"
 	DOCKER_DEFAULT_PLATFORM=linux/amd64 docker run -t -v ${PWD}:/tmp/wd -w/tmp/wd -t mingw bash -c "cp /usr/i686-w64-mingw32/sys-root/mingw/bin/openal32.dll ."
 
 clean:
-	rm -rf ${APPDIR} ${DMGDIR} *.dmg *.AppImage *.exe *.dll *.zip
+	rm -rf ${APPDIR} ${DMGDIR} *.dmg *.AppImage *.exe *.dll *.zip bin

@@ -19,7 +19,7 @@ CXXFLAGS := -std=gnu++17 -Wall -W
 CPPFLAGS += -I/home/user/src/SFML-2.6.1/include
 LDFLAGS += -L/usr/i686-w64-mingw32/sys-root/mingw/lib
 
-.PHONY: all clean debug release show_os
+.PHONY: all clean debug release
 
 all: debug
 

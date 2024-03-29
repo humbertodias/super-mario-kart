@@ -78,7 +78,7 @@ $(EXE): $(OBJ)
 endif
 
 $(BINDIR)/%.o: %.cpp
-	$(CXX) -c $(CXXFLAGS) $(CPPFLAGS) -I. $< -o $@
+	$(CXX) -c $(LDFLAGS) $(CXXFLAGS) $(CPPFLAGS) -I. $< -o $@
 
 $(BINDIR)/super_mario_kart.res: super_mario_kart.rc
 	windres super_mario_kart.rc -O coff -o $(BINDIR)/super_mario_kart.res

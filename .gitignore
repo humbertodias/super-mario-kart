@@ -41,3 +41,4 @@ smk_settings.cfg
 .DS_Store
 *.dmg
 *.AppImage
+*.zip

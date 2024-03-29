@@ -16,7 +16,38 @@ jobs:
           Expand-Archive -Path SFML.zip -DestinationPath C:\
           Rename-Item -Path C:\SFML-2.6.1 -NewName C:\SFML
           Remove-Item SFML.zip
-  
+
+      - name: Download and Install libFLAC
+        run: |
+          # Define variables
+          $libflacDir = "$env:USERPROFILE\libflac_build"
+          $libflacUrl = "https://github.com/xiph/flac/archive/1.4.3.tar.gz"
+
+          # Create directory if it doesn't exist
+          New-Item -ItemType Directory -Force -Path $libflacDir | Out-Null
+          Set-Location $libflacDir
+
+          # Download libFLAC source code
+          Write-Host "Downloading libFLAC source code..."
+          Invoke-WebRequest -Uri $libflacUrl -OutFile "libflac.tar.gz"
+
+          # Extract libFLAC source code
+          Write-Host "Extracting libFLAC source code..."
+          Expand-Archive -Path "libflac.tar.gz" -DestinationPath $libflacDir
+          Set-Location (Join-Path -Path $libflacDir -ChildPath "flac-1.4.3")
+
+          # Configure and build libFLAC statically
+          Write-Host "Configuring libFLAC statically..."
+          .\configure --host=x86_64-w64-mingw32 --prefix="$libflacDir\build" --disable-shared --enable-static
+          Write-Host "Building libFLAC statically..."
+          make
+
+          # Copy libFLAC.a to SFML lib directory
+          Write-Host "Copying libFLAC.a to SFML lib directory..."
+          Copy-Item -Path ".\src\libFLAC\.libs\libFLAC.a" -Destination "C:\SFML\lib\"
+
+          Write-Host "libFLAC static build completed."
+
       - name: Install MinGW
         run: |
           choco install mingw --version=13.1.0 -y

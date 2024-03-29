@@ -15,7 +15,7 @@ appimage:
 	chmod a+x linuxdeploy-${ARCH}.AppImage
 	# build AppImage
 	./linuxdeploy-${ARCH}.AppImage --executable ${EXE} --appdir ${APPDIR} --output appimage --desktop-file appdir/smk.desktop --icon-file appdir/smk.png
-	mv Super_Mario_Kart-${ARCH}.AppImage smk-${ARCH}-${TAG_NAME}.AppImage
+	mv Super_Mario_Kart-${ARCH}.AppImage smk-lin-${ARCH}-${TAG_NAME}.AppImage
 
 dmg:
 	# Set BREW_PREFIX variable using shell command
@@ -35,7 +35,7 @@ dmg:
 	# install_name_tool -change ${BREW_PREFIX}/lib/libsfml-graphics.2.6.dylib "@executable_path/../Frameworks/libsfml-graphics.dylib" ${DMGDIR}/Contents/MacOS/${EXE}
 	# install_name_tool -change ${BREW_PREFIX}/lib/libsfml-window.2.6.dylib "@executable_path/../Frameworks/libsfml-window.dylib" ${DMGDIR}/Contents/MacOS/${EXE}
 	# install_name_tool -change ${BREW_PREFIX}/lib/libsfml-system.2.6.dylib "@executable_path/../Frameworks/libsfml-audio.dylib" ${DMGDIR}/Contents/MacOS/${EXE}
-	hdiutil create -size 500m -fs APFS -volname "smk" -srcfolder ${DMGDIR} "smk-${ARCH}-${TAG_NAME}.dmg"
+	hdiutil create -size 500m -fs APFS -volname "smk" -srcfolder ${DMGDIR} "smk-mac-${ARCH}-${TAG_NAME}.dmg"
 
 tar.gz:
 	tar -czf "smk-mac-${ARCH}-${TAG_NAME}.tar.gz" assets LICENSE README.md super_mario_kart

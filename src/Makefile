@@ -26,8 +26,9 @@ LDLIBS :=
 ifeq  ($(OS),Darwin) or ($(OS),Linux)
 CPPFLAGS += `pkg-config --cflags sfml-graphics sfml-window sfml-system`
 LDFLAGS += `pkg-config --libs sfml-graphics sfml-window sfml-system`
-else ifeq  ($(OS),Windows_NT) 
-CPPFLAGS += -IC:/SFML/include
+else ifeq  ($(OS),Windows_NT)
+CXXFLAGS := -std=gnu++17  -Wall -W
+CPPFLAGS += -IC:/SFML/include -D_WIN32
 LDFLAGS += -LC:/SFML/lib
 endif
 

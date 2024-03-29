@@ -12,13 +12,7 @@ jobs:
 
       - name: Run Release
         if: startsWith(github.ref, 'refs/tags/')
-        run: | 
-            (cd src && make OS=mingw release)
-
-      - name: Create Zip
-        if: startsWith(github.ref, 'refs/tags/')
-        id: create_zip
-        run: make zip
+        run: make mingw zip
 
       - name: Create Release
         id: create_release

@@ -38,7 +38,7 @@ dmg:
         --fix-file ${DMGDIR}/Contents/MacOS/smk \
         --dest-dir ${DMGDIR}/Contents/libs
 
-	hdiutil create -size 10m -fs APFS -volname "smk" -srcfolder dmgdir -format SPARSE "smk-mac-${ARCH}-${TAG_NAME}.dmg"
+	hdiutil create -size 50m -fs APFS -volname "smk" -srcfolder dmgdir -format SPARSE "smk-mac-${ARCH}-${TAG_NAME}.dmg"
 
 tar.gz:
 	tar -czf "smk-mac-${ARCH}-${TAG_NAME}.tar.gz" assets LICENSE README.md super_mario_kart

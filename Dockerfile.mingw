@@ -45,14 +45,9 @@ RUN cmake \
 RUN make
 
 USER root
-RUN make install
+RUN make install && rm -rf ${SFML_ROOT}/build
 
 USER user
-
-# delete build dir
-#WORKDIR ..
-#RUN rm -rf build
-
 WORKDIR /home/user
 
 CMD /bin/bash

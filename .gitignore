@@ -42,3 +42,4 @@ smk_settings.cfg
 *.dmg
 *.AppImage
 *.zip
+dmgdir

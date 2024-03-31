@@ -15,6 +15,10 @@ endif
 
 BINDIR := ../bin
 
+ifeq ($(OS),mingw)
+	EXE :=  $(BINDIR)/super_mario_kart.exe
+endif
+
 SRC := $(wildcard **/*.cpp) $(wildcard *.cpp)
 OBJ := $(patsubst %.cpp, $(BINDIR)/%.o, $(SRC))
 DEP := $(OBJ:.o=.d)

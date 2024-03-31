@@ -57,4 +57,4 @@ mingw:	bin
 	cp bin/openal32.dll bin/super_mario_kart.exe .
 
 clean:
-	rm -rf ${APPDIR} ${DMGDIR} *.dmg *.AppImage *.exe *.dll *.zip bin
+	rm -rf ${APPDIR} ${DMGDIR} *.dmg *.dmg.sparseimage *.AppImage *.exe *.dll *.zip bin

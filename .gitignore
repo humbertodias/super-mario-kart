@@ -40,6 +40,7 @@ super_mario_kart
 smk_settings.cfg
 .DS_Store
 *.dmg
+*.dmg.sparseimage
 *.AppImage
 *.zip
 dmgdir

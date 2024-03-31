@@ -29,3 +29,4 @@ jobs:
           files: |
             ${{ github.workspace }}/*.tar.gz
             ${{ github.workspace }}/*.dmg
+            ${{ github.workspace }}/*.dmg.sparseimage

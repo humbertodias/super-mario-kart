@@ -29,7 +29,6 @@ os:
 	@echo ${OS_TYPE} - ${ARCH}
 
 appimage:	copy-exe
-
 	rm -rf ${APPDIR}
 	mkdir -p ${APPDIR}
 	cp -r assets LICENSE README.md bin/${EXE} assets/smk.desktop assets/smk.png ${APPDIR}
@@ -76,7 +75,8 @@ release-mingw:	bin
 
 release-linux:	bin
 	docker build . -f Dockerfile.linux -t sfml-linux
-	docker run -t --rm -v ${PWD}:/tmp/wd -w/tmp/wd --privileged -t sfml-linux bash -c "(cd src && make OS=Linux release) && make appimage"
+	docker run -t --rm -v ${PWD}:/tmp/wd -w/tmp/wd --privileged -t sfml-linux bash -c "(cd src && make OS=Linux release)"
+	make appimage
 
 release-mac:	bin
 	(cd src && make OS=Darwin release) && make dmg

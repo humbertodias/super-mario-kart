@@ -10,16 +10,10 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Compile
-        run: | 
-            sudo apt update -y && sudo apt install libfuse2 libsfml-dev -y
-            (cd src && make release)
+      - name: Release
+        run: make release-linux
 
-      - name: Create AppImage
-        if: startsWith(github.ref, 'refs/tags/')
-        run: make appimage
-
-      - name: Create Release
+      - name: Upload Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:

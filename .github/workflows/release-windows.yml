@@ -10,14 +10,10 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Compile
-        run: (cd src && make OS=Mingw release)
-
-      - name: Run Release
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Release
         run: make release-mingw
 
-      - name: Create Release
+      - name: Upload Release
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:

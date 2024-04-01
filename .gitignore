@@ -43,6 +43,8 @@ smk_settings.cfg
 *.dmg.sparseimage
 *.AppImage
 *.zip
+*.tar.gz
+tar.gz
 dmgdir
 appdir
 .idea

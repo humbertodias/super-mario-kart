@@ -29,12 +29,9 @@ appimage:	copy-exe
 dmg:	copy-exe
 	$(eval BREW_PREFIX := $(shell brew --prefix sfml))
 	mkdir -p ${DMGDIR}/Contents/MacOS ${DMGDIR}/Contents/Resources ${DMGDIR}/Contents/libs
-	cp assets/smk.command dmgdir/run.command
 	cp assets/Info.plist ${DMGDIR}/Contents/Info.plist
 	cp ${EXE} ${DMGDIR}/Contents/MacOS/smk
-	cp -r assets ${DMGDIR}/Contents/Resources
-
-	(cd ${DMGDIR}/Contents/MacOS && ln -s ../../Contents/Resources/assets assets)
+	cp -r assets ${DMGDIR}/Contents/MacOS
 
 	cp assets/smk.png ${DMGDIR}/Contents/Resources/AppIcon.png
 
@@ -42,10 +39,25 @@ dmg:	copy-exe
         --fix-file ${DMGDIR}/Contents/MacOS/smk \
         --dest-dir ${DMGDIR}/Contents/libs
 
+	echo '#!/bin/bash \n\
+	cd "`dirname "$$0"`"/smk.app/Contents/MacOS \n\
+	./smk' > dmgdir/run.command
+	chmod +x dmgdir/run.command
+
 	hdiutil create -size 50m -fs APFS -volname "smk" -srcfolder dmgdir "smk-mac-${ARCH}-${TAG_NAME}.dmg"
 
 tar.gz:	copy-exe
-	tar -czf "smk-mac-${ARCH}-${TAG_NAME}.tar.gz" assets LICENSE README.md ${EXE}
+
+	rm -rf tar.gz
+	mkdir -p tar.gz
+	
+	cp -r assets LICENSE README.md ${EXE} tar.gz
+	(cd tar.gz && \
+	dylibbundler --no-codesign --create-dir --bundle-deps --fix-file super_mario_kart --dest-dir libs --install-path ./libs && \
+	echo '#!/bin/bash \ncd "`dirname "$$0"`" \n./super_mario_kart' > run.command && \
+	chmod +x run.command && \
+	tar -czf ../"smk-mac-${ARCH}-${TAG_NAME}.tar.gz" . )
+	
 
 zip:	copy-exe
 	zip -r "smk-win-${ARCH}-${TAG_NAME}.zip" assets LICENSE README.md openal32.dll ${EXE}.exe
@@ -71,5 +83,5 @@ release-mac:	bin
 	(cd src && make OS=Darwin release) && make dmg
 
 clean:
-	rm -rf ${APPDIR} ${DMGDIR} ${EXE} *.dmg *.dmg.sparseimage *.AppImage *.exe *.dll *.zip bin
+	rm -rf ${APPDIR} ${DMGDIR} ${EXE} *.dmg *.dmg.sparseimage *.AppImage *.exe *.dll *.zip *.tar.gz tar.gz bin
 	cd src && make clean

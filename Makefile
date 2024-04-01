@@ -1,32 +1,21 @@
-TAG_NAME=`git describe --tags --abbrev=0`
+TAG_NAME=$(shell git describe --tags --abbrev=0)
 
 APPDIR=appdir
 DMGDIR=dmgdir/smk.app
 EXE=super_mario_kart
 
-OS_TYPE := unknown
 ifeq ($(OS),Windows_NT)
-    OS_TYPE := windows
 	ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
 		ARCH := x64
 	else ifeq ($(PROCESSOR_ARCHITECTURE),x86)
 		ARCH := x86
 	endif
 else
-	ARCH=`uname -m`
-    UNAME_S := $(shell uname -s)
-    ifeq ($(UNAME_S),Linux)
-        OS_TYPE := linux
-    else ifeq ($(UNAME_S),Darwin)
-        OS_TYPE := mac
-    endif
+	ARCH=$(shell uname -m)
 endif
 
 all:
 	cd src && make
-
-os:
-	@echo ${OS_TYPE} - ${ARCH}
 
 appimage:	copy-exe
 	rm -rf ${APPDIR}

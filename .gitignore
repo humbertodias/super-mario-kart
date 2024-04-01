@@ -44,3 +44,5 @@ smk_settings.cfg
 *.AppImage
 *.zip
 dmgdir
+appdir
+.idea

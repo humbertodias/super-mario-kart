@@ -28,7 +28,8 @@ all:
 os:
 	@echo ${OS_TYPE} - ${ARCH}
 
-appimage:
+appimage:	copy-exe
+
 	rm -rf ${APPDIR}
 	mkdir -p ${APPDIR}
 	cp -r assets LICENSE README.md bin/${EXE} assets/smk.desktop assets/smk.png ${APPDIR}
@@ -37,7 +38,7 @@ appimage:
 	./linuxdeploy-${ARCH}.AppImage --executable appdir/${EXE} --appdir ${APPDIR} --output appimage --desktop-file appdir/smk.desktop --icon-file appdir/smk.png
 	mv Super_Mario_Kart-${ARCH}.AppImage smk-lin-${ARCH}-${TAG_NAME}.AppImage
 
-dmg:
+dmg:	copy-exe
 	$(eval BREW_PREFIX := $(shell brew --prefix sfml))
 	mkdir -p ${DMGDIR}/Contents/MacOS ${DMGDIR}/Contents/Resources ${DMGDIR}/Contents/libs
 	cp assets/smk.command dmgdir/run.command
@@ -55,19 +56,21 @@ dmg:
 
 	hdiutil create -size 50m -fs APFS -volname "smk" -srcfolder dmgdir -format SPARSE "smk-mac-${ARCH}-${TAG_NAME}.dmg"
 
-tar.gz:
-	tar -czf "smk-mac-${ARCH}-${TAG_NAME}.tar.gz" assets LICENSE README.md bin/super_mario_kart
+tar.gz:	copy-exe
+	tar -czf "smk-mac-${ARCH}-${TAG_NAME}.tar.gz" assets LICENSE README.md ${EXE}
 
-zip:
-	zip -r "smk-win-${ARCH}-${TAG_NAME}.zip" assets LICENSE README.md openal32.dll bin/super_mario_kart.exe
+zip:	copy-exe
+	zip -r "smk-win-${ARCH}-${TAG_NAME}.zip" assets LICENSE README.md openal32.dll ${EXE}.exe
 
 bin:
 	rm -rf bin && mkdir -p bin && chmod -R 777 bin
 
+copy-exe:
+	cp bin/${EXE}* .
+
 release-mingw:	bin
 	docker build . -f Dockerfile.mingw -t sfml-mingw
-	docker run -t --rm -v ${PWD}:/tmp/wd -w/tmp/wd -t sfml-mingw bash -c "(cd src && make OS=Mingw release) && cp /usr/i686-w64-mingw32/sys-root/mingw/bin/openal32.dll bin"
-	cp bin/openal32.dll bin/super_mario_kart.exe .
+	docker run -t --rm -v ${PWD}:/tmp/wd -w/tmp/wd -t sfml-mingw bash -c "(cd src && make OS=Mingw release) && cp /usr/i686-w64-mingw32/sys-root/mingw/bin/openal32.dll bin && make zip"
 
 release-linux:	bin
 	docker build . -f Dockerfile.linux -t sfml-linux

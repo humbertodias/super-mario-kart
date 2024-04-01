@@ -42,7 +42,7 @@ dmg:	copy-exe
         --fix-file ${DMGDIR}/Contents/MacOS/smk \
         --dest-dir ${DMGDIR}/Contents/libs
 
-	hdiutil create -size 50m -fs APFS -volname "smk" -srcfolder dmgdir -format SPARSE "smk-mac-${ARCH}-${TAG_NAME}.dmg"
+	hdiutil create -size 50m -fs APFS -volname "smk" -srcfolder dmgdir "smk-mac-${ARCH}-${TAG_NAME}.dmg"
 
 tar.gz:	copy-exe
 	tar -czf "smk-mac-${ARCH}-${TAG_NAME}.tar.gz" assets LICENSE README.md ${EXE}

@@ -70,7 +70,8 @@ copy-exe:
 
 release-mingw:	bin
 	docker build . -f Dockerfile.mingw -t sfml-mingw
-	docker run -t --rm -v ${PWD}:/tmp/wd -w/tmp/wd -t sfml-mingw bash -c "(cd src && make OS=Mingw release) && cp /usr/i686-w64-mingw32/sys-root/mingw/bin/openal32.dll bin && make zip"
+	docker run -t --rm -v ${PWD}:/tmp/wd -w/tmp/wd -t sfml-mingw bash -c "(cd src && make OS=Mingw release) && cp /usr/i686-w64-mingw32/sys-root/mingw/bin/openal32.dll bin"
+	make zip
 
 release-linux:	bin
 	docker build . -f Dockerfile.linux -t sfml-linux

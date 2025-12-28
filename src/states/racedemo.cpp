@@ -68,40 +68,37 @@ void StateRaceDemo::init() {
 }
 
 void StateRaceDemo::handleEvent(const sf::Event& event) {
-    if (event.type == sf::Event::KeyPressed &&
-        event.key.code >= sf::Keyboard::Num1 &&
-        event.key.code <= sf::Keyboard::Num7) {
-        PowerUps item = PowerUps(event.key.code - sf::Keyboard::Num0);
-        for (const DriverPtr& driver : drivers) {
-            driver->pickUpPowerUp(item);
-            if (autoUseItems) {
-                Item::useItem(driver, positions, true, true);
+    if (const auto* keyEvent = event.getIf<sf::Event::KeyPressed>()) {
+        if (keyEvent->code >= sf::Keyboard::Key::Num1 &&
+            keyEvent->code <= sf::Keyboard::Key::Num7) {
+            PowerUps item = PowerUps(static_cast<int>(keyEvent->code) - static_cast<int>(sf::Keyboard::Key::Num0));
+            for (const DriverPtr& driver : drivers) {
+                driver->pickUpPowerUp(item);
+                if (autoUseItems) {
+                    Item::useItem(driver, positions, true, true);
+                }
             }
+        } else if (keyEvent->code == sf::Keyboard::Key::Tab) {
+            selectRandomTarget();
+        } else if (keyEvent->code == sf::Keyboard::Key::LAlt) {
+            autoUseItems = !autoUseItems;
+            showMessage = "auto use items > ";
+            showMessage += (autoUseItems ? "on" : "off");
+            showMessageTime = StateRace::currentTime + SHOW_MESSAGE_TIME;
+        } else if (keyEvent->code == sf::Keyboard::Key::LControl) {
+            fixCamera = !fixCamera;
+            showMessage = "fix camera > ";
+            showMessage += (fixCamera ? "on" : "off");
+            showMessageTime = StateRace::currentTime + SHOW_MESSAGE_TIME;
+        } else if (keyEvent->code == sf::Keyboard::Key::Space) {
+            firstPersonCamera = !firstPersonCamera;
+            showMessage = "first person camera > ";
+            showMessage += (firstPersonCamera ? "on" : "off");
+            showMessageTime = StateRace::currentTime + SHOW_MESSAGE_TIME;
+        } else if (!raceFinished) {
+            raceFinished = true;
+            fadeTime = sf::Time::Zero;
         }
-    } else if (event.type == sf::Event::KeyPressed &&
-               event.key.code == sf::Keyboard::Tab) {
-        selectRandomTarget();
-    } else if (event.type == sf::Event::KeyPressed &&
-               event.key.code == sf::Keyboard::LAlt) {
-        autoUseItems = !autoUseItems;
-        showMessage = "auto use items > ";
-        showMessage += (autoUseItems ? "on" : "off");
-        showMessageTime = StateRace::currentTime + SHOW_MESSAGE_TIME;
-    } else if (event.type == sf::Event::KeyPressed &&
-               event.key.code == sf::Keyboard::LControl) {
-        fixCamera = !fixCamera;
-        showMessage = "fix camera > ";
-        showMessage += (fixCamera ? "on" : "off");
-        showMessageTime = StateRace::currentTime + SHOW_MESSAGE_TIME;
-    } else if (event.type == sf::Event::KeyPressed &&
-               event.key.code == sf::Keyboard::Space) {
-        firstPersonCamera = !firstPersonCamera;
-        showMessage = "first person camera > ";
-        showMessage += (firstPersonCamera ? "on" : "off");
-        showMessageTime = StateRace::currentTime + SHOW_MESSAGE_TIME;
-    } else if (!raceFinished && event.type == sf::Event::KeyPressed) {
-        raceFinished = true;
-        fadeTime = sf::Time::Zero;
     }
 }
 

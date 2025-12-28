@@ -32,10 +32,9 @@ StatePtr Game::getCurrentState() const { return stateStack.top(); }
 
 void Game::handleEvents(const StatePtr& currentState) {
     // Check for close event
-    sf::Event event;
-    while (window.pollEvent(event)) {
-        currentState->handleEvent(event);
-        if (event.type == sf::Event::Closed) {
+    while (const auto event = window.pollEvent()) {
+        currentState->handleEvent(*event);
+        if (event->is<sf::Event::Closed>()) {
             gameEnded = true;
         }
     }
@@ -126,8 +125,8 @@ void Game::updateResolution() {
         window.close();
     }
     unsigned int resolutionMultiplier = Settings::getResolutionMultiplier();
-    window.create(sf::VideoMode(baseWidth * resolutionMultiplier,
-                                baseHeight * resolutionMultiplier),
+    window.create(sf::VideoMode({baseWidth * resolutionMultiplier,
+                                 baseHeight * resolutionMultiplier}),
                   "Super Mario Kart", WINDOW_STYLE);
     window.setFramerateLimit(framerate);
     Gui::setWindowSize(window.getSize());

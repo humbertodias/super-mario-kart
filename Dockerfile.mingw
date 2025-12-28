@@ -24,13 +24,13 @@ RUN mkdir src
 WORKDIR src
 
 ### Grab SFML sources
-ENV SFML_VERSION=2.6.1
+ENV SFML_VERSION=3.0.3
 ENV SFML_ROOT=/home/user/src/SFML
 RUN wget -q https://github.com/SFML/SFML/archive/refs/tags/${SFML_VERSION}.tar.gz -O SFML.tar.gz
 RUN tar xf SFML.tar.gz && ln -s SFML-${SFML_VERSION} SFML && rm SFML.tar.gz
 
 ### Cross-compile it.
-WORKDIR SFML-2.6.1
+WORKDIR SFML-3.0.3
 RUN mkdir build
 WORKDIR build
 ENV MINGW_ROOT=/usr/i686-w64-mingw32/sys-root/mingw

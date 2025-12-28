@@ -279,12 +279,15 @@ void StateStart::handleEvent(const sf::Event& event) {
             }
             break;
         case MenuState::CONTROLS:
-            if (waitingForKeyPress && event.type == sf::Event::KeyPressed &&
-                Input::getKeyCodeName(event.key.code) != "?") {
-                Audio::play(SFX::MENU_SELECTION_ACCEPT);
-                waitingForKeyPress = false;
-                Input::set(Key(selectedOption), event.key.code);
-            } else {
+            if (const auto* keyEvent = event.getIf<sf::Event::KeyPressed>()) {
+                if (waitingForKeyPress &&
+                    Input::getKeyCodeName(keyEvent->code) != "?") {
+                    Audio::play(SFX::MENU_SELECTION_ACCEPT);
+                    waitingForKeyPress = false;
+                    Input::set(Key(selectedOption), keyEvent->code);
+                }
+            }
+            if (!waitingForKeyPress) {
                 if (Input::pressed(Key::ACCEPT, event) ||
                     Input::pressed(Key::ACCELERATE, event)) {
                     Audio::play(SFX::MENU_SELECTION_MOVE);

@@ -14,7 +14,7 @@ DEP := $(OBJ:.o=.d)
 ifeq ($(OS),Mingw)
 EXE := $(BINDIR)/super_mario_kart.exe
 COMMON_CXXFLAGS := -std=gnu++11 -Wall -W
-COMMON_CPPFLAGS := -I/home/user/src/SFML-2.6.1/include
+COMMON_CPPFLAGS := -I/home/user/src/SFML-3.0.3/include
 COMMON_LDFLAGS := -L/usr/i686-w64-mingw32/sys-root/mingw/lib
 COMMON_LDLIBS := 
 

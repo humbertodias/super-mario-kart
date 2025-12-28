@@ -4,7 +4,7 @@ RUN apt update -y && apt install wget file git make g++ gcc pkg-config fuse libf
 RUN apt install -y libx11-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libgl1-mesa-dev libflac-dev libogg-dev libvorbis-dev libvorbisenc2 libvorbisfile3 libopenal-dev libfreetype6-dev
 
 # Build SFML 3.0.3 from source
-ENV SFML_VERSION=3.0.3
+ENV SFML_VERSION=3.0.2
 WORKDIR /tmp
 RUN wget -q https://github.com/SFML/SFML/archive/refs/tags/${SFML_VERSION}.tar.gz -O SFML.tar.gz
 RUN tar xf SFML.tar.gz

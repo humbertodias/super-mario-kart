@@ -1,3 +1,25 @@
 FROM ubuntu:latest
 
-RUN apt update -y && apt install wget file git make g++ gcc pkg-config fuse libfuse2 libfuse-dev kmod libsfml-dev -y
+RUN apt update -y && apt install wget file git make g++ gcc pkg-config fuse libfuse2 libfuse-dev kmod cmake -y
+RUN apt install -y libx11-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libgl1-mesa-dev libflac-dev libogg-dev libvorbis-dev libvorbisenc2 libvorbisfile3 libopenal-dev libfreetype6-dev
+
+# Build SFML 3.0.3 from source
+ENV SFML_VERSION=3.0.3
+WORKDIR /tmp
+RUN wget -q https://github.com/SFML/SFML/archive/refs/tags/${SFML_VERSION}.tar.gz -O SFML.tar.gz
+RUN tar xf SFML.tar.gz
+WORKDIR /tmp/SFML-${SFML_VERSION}
+RUN mkdir build
+WORKDIR /tmp/SFML-${SFML_VERSION}/build
+RUN cmake \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_SHARED_LIBS=ON \
+    -DSFML_BUILD_DOC=FALSE \
+    -DSFML_BUILD_EXAMPLES=FALSE \
+    -DSFML_BUILD_TEST_SUITE=FALSE \
+    ..
+RUN make -j$(nproc)
+RUN make install
+RUN ldconfig
+
+WORKDIR /

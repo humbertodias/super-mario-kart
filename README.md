@@ -131,7 +131,7 @@ and [GCC](https://gcc.gnu.org/) 7.5.0 for Linux.
 
 ## Simple and Fast Multimedia Library (SFML)
 
-We use [SFML 3.0.3](https://www.sfml-dev.org/download/sfml/3.0.3/) for graphics
+We use [SFML 3.0.2](https://www.sfml-dev.org/download/sfml/3.0.2/) for graphics
 generation and audio playback.
 
 ## Open Audio Library (OpenAL)

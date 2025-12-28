@@ -5,6 +5,7 @@ class Game;
 #include <SFML/Graphics.hpp>
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <cstdint>
 #include <memory>
 #include <stack>
 

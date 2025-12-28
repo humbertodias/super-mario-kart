@@ -127,7 +127,7 @@ void Game::updateResolution() {
     unsigned int resolutionMultiplier = Settings::getResolutionMultiplier();
     window.create(sf::VideoMode({baseWidth * resolutionMultiplier,
                                  baseHeight * resolutionMultiplier}),
-                  "Super Mario Kart", WINDOW_STYLE);
+                  "Super Mario Kart", WINDOW_STYLE, sf::State::Windowed);
     window.setFramerateLimit(framerate);
     Gui::setWindowSize(window.getSize());
     Lakitu::setWindowSize(window.getSize());

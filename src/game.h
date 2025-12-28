@@ -23,7 +23,7 @@ class Game;
 
 class Game {
    private:
-    static constexpr sf::State WINDOW_STYLE = sf::State::Titled;
+    static constexpr std::uint32_t WINDOW_STYLE = sf::Style::Titlebar | sf::Style::Close;
     const int baseWidth, baseHeight;
 
     sf::RenderWindow window;  // game rendering canvas

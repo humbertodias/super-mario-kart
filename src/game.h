@@ -5,6 +5,7 @@ class Game;
 #include <SFML/Graphics.hpp>
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include <cstdint>
 #include <memory>
 #include <stack>
 
@@ -23,7 +24,7 @@ class Game;
 
 class Game {
    private:
-    static const int WINDOW_STYLE = sf::Style::Titlebar | sf::Style::Close;
+    static constexpr std::uint32_t WINDOW_STYLE = sf::Style::Titlebar | sf::Style::Close;
     const int baseWidth, baseHeight;
 
     sf::RenderWindow window;  // game rendering canvas

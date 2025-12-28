@@ -38,7 +38,7 @@ class Settings {
     }
     static inline bool incrementResolutionMultiplier() {
         if (instance.resolutionIndex == ALLOWED_MULTIPLIERS.size() - 1 ||
-            sf::VideoMode::getDesktopMode().height <
+            sf::VideoMode::getDesktopMode().size.y <
                 BASIC_HEIGHT *
                     ALLOWED_MULTIPLIERS[instance.resolutionIndex + 1] / 2.0f) {
             return false;

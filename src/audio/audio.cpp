@@ -250,7 +250,7 @@ void Audio::playEngines(unsigned int playerIndex, bool raceMode) {
     }
     instance.sfxEngines[playerIndex].setRelativeToListener(raceMode);
     if (raceMode) {
-        instance.sfxEngines[playerIndex].setPosition(0.0f, 0.0f, 0.0f);
+        instance.sfxEngines[playerIndex].setPosition(sf::Vector3f(0.0f, 0.0f, 0.0f));
     }
     instance.enginesPlaying = true;
 }
@@ -284,8 +284,8 @@ void Audio::updateEngine(unsigned int i, sf::Vector2f position, float height,
     if (height > 0.0f) pitch += 0.35f;
     pitch = fmin(pitch, 2.0f);
     if ((unsigned int)i != instance.playerIndex || !instance.raceMode) {
-        instance.sfxEngines[i].setPosition(position.x, position.y,
-                                           height / 80.0f);
+        instance.sfxEngines[i].setPosition(sf::Vector3f(position.x, position.y,
+                                           height / 80.0f));
     }
     instance.sfxEngines[i].setPitch(pitch);
 }
@@ -297,9 +297,9 @@ void Audio::updateEngine(sf::Vector2f position, float height,
 }
 
 void Audio::updateListener(sf::Vector2f position, float angle, float height) {
-    sf::Listener::setPosition(position.x, position.y, height / 80.0f);
-    sf::Listener::setDirection(-cosf(angle), -sinf(angle), 0.0f);
-    sf::Listener::setUpVector(0.0f, 0.0f, 1.0f);
+    sf::Listener::setPosition(sf::Vector3f(position.x, position.y, height / 80.0f));
+    sf::Listener::setDirection(sf::Vector3f(-cosf(angle), -sinf(angle), 0.0f));
+    sf::Listener::setUpVector(sf::Vector3f(0.0f, 0.0f, 1.0f));
 }
 
 void Audio::pauseEngines() {

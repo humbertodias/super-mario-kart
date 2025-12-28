@@ -47,12 +47,16 @@ class Input {
 
     // Check for key press/release/hold events
     static inline bool pressed(const Key action, const sf::Event &event) {
-        return event.type == sf::Event::KeyPressed &&
-               event.key.code == get(action);
+        if (const auto* keyEvent = event.getIf<sf::Event::KeyPressed>()) {
+            return keyEvent->code == get(action);
+        }
+        return false;
     }
     static inline bool released(const Key action, const sf::Event &event) {
-        return event.type == sf::Event::KeyReleased &&
-               event.key.code == get(action);
+        if (const auto* keyEvent = event.getIf<sf::Event::KeyReleased>()) {
+            return keyEvent->code == get(action);
+        }
+        return false;
     }
     static inline bool held(const Key action) {
         return sf::Keyboard::isKeyPressed(get(action)) &&
